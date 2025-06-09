@@ -4,11 +4,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:healthcare_flutter/features/intro_features/screen/intro_screen.dart';
 import 'package:healthcare_flutter/features/public_features/functions/pre_values/pre_values.dart';
 import 'package:healthcare_flutter/features/public_features/functions/pref/shared_pref.dart';
-import 'package:healthcare_flutter/features/public_features/functions/secure_storage/secure_storage.dart';
-import 'package:healthcare_flutter/features/public_features/screen/bottom_nav_bar_screen.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../const/theme/colors.dart';
 import '../widget/textstyle_widget.dart';
@@ -23,23 +21,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-   navigate() {
-    Timer(Duration(seconds: 3), () async {
-      if (await SharedPref().getIntroStatus()) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          BottomNavBarScreen.screenId,
-          (route) => false,
-        );
-      } else {
-        Navigator.pushReplacementNamed(context, IntroScreen.screenId);
-      }
-    });
-  }
+
   @override
   void initState() {
     super.initState();
-    // navigate();
+    // Start navigation after first frame is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      navigate();
+    });
+  }
+
+  Future<void> navigate() async {
+    await Future.delayed(Duration(seconds: 3));
+
+    final introStatus = await SharedPref().getIntroStatus();
+
+    if (!mounted) return;
+
+    if (introStatus) {
+      // If intro is done, navigate to bottom nav bar screen
+      context.goNamed('bottom_nav_bar');
+    } else {
+      // If intro is not done, navigate to intro screen
+      context.goNamed('intro');
+    }
   }
 
   @override
@@ -60,7 +65,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     spacing: 10.sp,
                     children: [
                       Image.asset(PreValues().imageUrl),
-                      Text('سلامت آنلاین', style: textStyleFunc(fontSize: 16.sp)),
+                      Text(
+                        'سلامت آنلاین',
+                        style: textStyleFunc(fontSize: 16.sp),
+                      ),
                     ],
                   ),
                 ),
@@ -71,7 +79,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [SpinKitCircle(color: Colors.white)],
+                    children: [
+                      SpinKitCircle(color: Colors.white),
+                    ],
                   ),
                 ),
               ),

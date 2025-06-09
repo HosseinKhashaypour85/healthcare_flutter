@@ -11,8 +11,8 @@ import '../../chat_features/screen/chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const String screenId = '/home';
 
-  static const String screenId = 'home';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

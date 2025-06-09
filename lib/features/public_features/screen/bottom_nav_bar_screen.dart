@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:healthcare_flutter/const/theme/colors.dart';
+import 'package:healthcare_flutter/features/profile_features/screen/profile_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 import '../../home_features/screen/home_screen.dart';
+import '../../profile_features/screen/check_profile.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   const BottomNavBarScreen({super.key});
 
-  static const String screenId = 'bottomNav';
+  static const String screenId = 'bottom_nav_screen';
 
   @override
   State<BottomNavBarScreen> createState() => _BottomNavBarScreenState();
@@ -43,7 +45,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
       Navigator(
         key: profileKey,
         onGenerateRoute:
-            (settings) => MaterialPageRoute(builder: (context) => Container()),
+            (settings) => MaterialPageRoute(builder: (context) => CheckProfile()),
       ),
       Navigator(
         key: null,

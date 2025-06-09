@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthcare_flutter/const/shape/border_radius.dart';
 import 'package:healthcare_flutter/const/shape/media_query.dart';
 import 'package:healthcare_flutter/const/theme/colors.dart';
@@ -10,7 +11,6 @@ import 'package:healthcare_flutter/features/public_features/screen/bottom_nav_ba
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
 
-  static const String screenId = 'intro';
 
   @override
   State<IntroScreen> createState() => _IntroScreenState();
@@ -113,11 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
                         ),
                         onPressed: () {
                           SharedPref().setIntroStatus();
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            BottomNavBarScreen.screenId,
-                            (route) => false,
-                          );
+                          context.go('/bottom_nav_bar');
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
